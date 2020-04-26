@@ -17,6 +17,7 @@ import ListItemText from '@material-ui/core/ListItemText'
 import ListSubheader from '@material-ui/core/ListSubheader'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
 import LinearProgress from '@material-ui/core/LinearProgress'
+import Switch from '@material-ui/core/Switch'
 
 import NewProjectAnswerDialog from '../NewProjectAnswerDialog'
 import NewProjectAnswerTitle from '../NewProjectAnswerTitle'
@@ -88,7 +89,19 @@ function useProjects() {
       })
   }
 
-  return { auth, projects, addProject, newDialogOpen, toggleDialog }
+  const setQuiz = () => {
+    if (localStorage.getItem('quiz') == null) {
+      const defaultQuiz = {
+        userId: auth.uid,
+        productId: projectId
+      }
+
+      //set to localStorage
+      localStorage.setItem('quiz', JSON.stringify(defaultQuiz))
+    }
+  }
+
+  return { auth, projects, addProject, setQuiz, newDialogOpen, toggleDialog }
 }
 function ProjectAnswers() {
   const { projectId } = useParams()
@@ -97,6 +110,7 @@ function ProjectAnswers() {
     auth,
     projects,
     addProject,
+    setQuiz,
     newDialogOpen,
     toggleDialog
   } = useProjects()
@@ -122,6 +136,7 @@ function ProjectAnswers() {
         open={newDialogOpen}
         onRequestClose={toggleDialog}
       />
+      <Switch onChange={setQuiz} />
       <List component="nav">
         <ListSubheader>
           Possible Answers

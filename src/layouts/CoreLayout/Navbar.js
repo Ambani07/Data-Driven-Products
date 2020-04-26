@@ -21,6 +21,7 @@ import theme from './CoreLayout.styles'
 import MenuItem from '@material-ui/core/MenuItem'
 import Menu from '@material-ui/core/Menu'
 import NavbarMenu from './NavbarMenu'
+import { useLocation } from 'react-router-dom'
 import {
   mainListItems,
   secondaryListItems
@@ -37,6 +38,9 @@ export default function Navbar() {
   const handleDrawerOpen = () => {
     setOpen(true)
   }
+
+  let location = useLocation()
+  // console.log(location.pathname)
   const handleDrawerClose = () => {
     setOpen(false)
   }
