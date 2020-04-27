@@ -22,16 +22,9 @@ import Switch from '@material-ui/core/Switch'
 import NewProjectAnswerDialog from '../NewProjectAnswerDialog'
 import NewProjectAnswerTitle from '../NewProjectAnswerTitle'
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    backgroundColor: theme.palette.background.paper,
-    marginTop: '20px'
-  },
-  rightIcon: {
-    marginLeft: theme.spacing(20)
-  }
-})
+import theme from './ProductAnswers.styles'
+
+const styles = theme
 
 const useStyles = makeStyles(styles)
 
@@ -52,10 +45,6 @@ function useProjects() {
       // queryParams: ['orderByChild=createdBy', `equalTo=${auth.uid}`]
     }
   ])
-
-  // Get projects from redux state
-  const projects = useSelector(state => state.firebase.ordered.projects)
-
   // Get project answers from redux state
   const answers = useSelector(({ firebase: { data } }) => {
     return data.projects && data.projects[projectId].answers
@@ -101,19 +90,12 @@ function useProjects() {
     }
   }
 
-  return { auth, projects, addProject, setQuiz, newDialogOpen, toggleDialog }
+  return { addProject, setQuiz, newDialogOpen, toggleDialog }
 }
 function ProjectAnswers() {
   const { projectId } = useParams()
   const classes = useStyles()
-  const {
-    auth,
-    projects,
-    addProject,
-    setQuiz,
-    newDialogOpen,
-    toggleDialog
-  } = useProjects()
+  const { addProject, setQuiz, newDialogOpen, toggleDialog } = useProjects()
   const completed = 50
   const buffer = 100
   // Create listener for projects

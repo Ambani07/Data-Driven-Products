@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ContentAddCircle from '@material-ui/icons/AddCircle'
 import AddIcon from '@material-ui/icons/Add'
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './NewProjectAnswerTitle.styles'
