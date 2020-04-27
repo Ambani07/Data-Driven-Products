@@ -1,10 +1,10 @@
 export default theme => ({
   root: {
-    padding: theme.spacing(2)
+    width: '100%',
+    backgroundColor: theme.palette.background.paper,
+    marginTop: '20px'
   },
-  progress: {
-    ...theme.flexRowCenter,
-    alignItems: 'center',
-    paddingTop: theme.spacing(8)
+  rightIcon: {
+    marginLeft: theme.spacing(20)
   }
 })

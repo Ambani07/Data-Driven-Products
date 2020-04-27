@@ -1,20 +1,17 @@
 /* eslint-disable no-console */
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import styles from './QuizPage.styles'
 import { useSelector } from 'react-redux'
-import ClearIcon from '@material-ui/icons/Clear'
 import { connect } from 'react-redux'
 import Grid from '@material-ui/core/Grid'
-// import { addQuiz } from '../../../../store/quiz'
 import Button from '@material-ui/core/Button'
 import uuid from 'react-uuid'
-import { useFirebaseConnect, isLoaded, useFirebase } from 'react-redux-firebase'
-
+import { useFirebaseConnect, useFirebase } from 'react-redux-firebase'
 import Quiz from './Quiz'
-
 import LoadingSpinner from 'components/LoadingSpinner'
+
 const useStyles = makeStyles(styles)
 
 function complete() {
@@ -44,18 +41,16 @@ function useProjects() {
           createdAt: firebase.database.ServerValue.TIMESTAMP
         })
         .catch(err => {
-          console.error('Error:', err) // eslint-disable-line no-console
-          // showError(err.message || 'Could not add project')
+          console.error('Error:', err)
           return Promise.reject(err)
         })
     }
   }
-  // Attach todos listener
+  // Attach project listener
   useFirebaseConnect(() => [
     {
       path: 'projects',
       queryParams: ['limitToLast=10']
-      // queryParams: ['orderByChild=createdBy', `equalTo=${auth.uid}`]
     }
   ])
 

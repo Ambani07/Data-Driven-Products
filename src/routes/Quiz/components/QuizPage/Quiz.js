@@ -9,10 +9,10 @@ function Quiz({ answer, classes, addQuiz }) {
   const [clicked, clickedButton] = useState(false)
   const onClick = useCallback(
     answer => {
-      console.log(answer)
       addQuiz(answer)
       clickedButton(true)
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [clickedButton]
   ) // Array of dependencies for which the memoization should update
   return (

@@ -29,7 +29,8 @@ export default theme => ({
     })
   },
   menuButton: {
-    marginRight: 36
+    marginLeft: -12,
+    marginRight: 20
   },
   menuButtonHidden: {
     display: 'none'
@@ -78,9 +79,5 @@ export default theme => ({
   },
   grow: {
     flexGrow: 1
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20
   }
 })

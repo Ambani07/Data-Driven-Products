@@ -25,7 +25,7 @@ function NavbarMenu() {
         }
 
         return (
-          <React.Fragment>
+          <div>
             <Button
               aria-owns={open ? 'render-props-menu' : undefined}
               aria-haspopup="true"
@@ -45,7 +45,7 @@ function NavbarMenu() {
               <MenuItem onClick={handleClose}>My account</MenuItem>
               <MenuItem onClick={onLogoutClick}>Logout</MenuItem>
             </Menu>
-          </React.Fragment>
+          </div>
         )
       }}
     </WithState>
