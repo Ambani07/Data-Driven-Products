@@ -4,7 +4,7 @@ import { useFirebaseConnect, isLoaded, useFirebase } from 'react-redux-firebase'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import LoadingSpinner from 'components/LoadingSpinner'
-
+import ListItemAvatar from '@material-ui/core/ListItemAvatar'
 import uuid from 'react-uuid'
 import { useNotifications } from 'modules/notification'
 
@@ -13,14 +13,14 @@ import List from '@material-ui/core/List'
 import ListItem from '@material-ui/core/ListItem'
 
 import ListItemText from '@material-ui/core/ListItemText'
+import Button from '@material-ui/core/Button'
 
-import ListSubheader from '@material-ui/core/ListSubheader'
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import LinearProgress from '@material-ui/core/LinearProgress'
 import Switch from '@material-ui/core/Switch'
 
 import NewProjectAnswerDialog from '../NewProjectAnswerDialog'
-import NewProjectAnswerTitle from '../NewProjectAnswerTitle'
+
+import AddIcon from '@material-ui/icons/Add'
 
 import theme from './ProductAnswers.styles'
 
@@ -131,23 +131,20 @@ function ProjectAnswers() {
         open={newDialogOpen}
         onRequestClose={toggleDialog}
       />
-      <Switch onChange={setQuiz} checked={swithStatus} />
-      <List component="nav">
-        <ListSubheader>
-          Possible Answers
+      <List>
+        <ListItem>
+          <Switch onChange={setQuiz} checked={swithStatus} />
+          <ListItemText secondary="Show Quiz" />
           <ListItemSecondaryAction>
-            <NewProjectAnswerTitle onClick={toggleDialog} />
+            <Button
+              variant="outlined"
+              color="primary"
+              endIcon={<AddIcon />}
+              onClick={toggleDialog}>
+              Add Answer
+            </Button>
           </ListItemSecondaryAction>
-        </ListSubheader>
-        {project.answers !== null ? (
-          project.answers.map(answer => (
-            <ListItem key={answer.id}>
-              <ListItemText primary={answer.text} />
-            </ListItem>
-          ))
-        ) : (
-          <h1>No Answers</h1>
-        )}
+        </ListItem>
       </List>
     </div>
   )

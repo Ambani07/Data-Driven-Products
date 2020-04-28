@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import Typography from '@material-ui/core/Typography'
 import ProductAnswers from '../ProjectAnswers'
+import ProjectDetails from '../ProjectDetails'
 import Grid from '@material-ui/core/Grid'
 import { useParams, Link } from 'react-router-dom'
 import { useFirebaseConnect, isLoaded, useFirebase } from 'react-redux-firebase'
@@ -79,16 +80,9 @@ function ProjectPage(props) {
           </span>
         </ButtonBase>
       </Link>
-      {/* <Grid container spacing={3}>
-        <Grid item xs={12}>
-          <Uploader />
-        </Grid>
-      </Grid> */}
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <h1>Project Details</h1>
-          {/* <ProductAnswers /> */}
-          <ProductAnswers />
+          <ProjectDetails project={project} />
         </Grid>
         <Grid item xs={12}>
           <h1>View Starts</h1>
