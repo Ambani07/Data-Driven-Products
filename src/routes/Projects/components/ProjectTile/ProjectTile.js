@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useHistory } from 'react-router-dom'
 import Paper from '@material-ui/core/Paper'
@@ -17,7 +17,17 @@ function ProjectTile({ name, image, projectId, showDelete }) {
   const classes = useStyles()
   const history = useHistory()
   const firebase = useFirebase()
+  const [url, setUrl] = useState('')
   const { showError, showSuccess } = useNotifications()
+
+  firebase
+    .storage()
+    .ref(`images/${image}`)
+    .getDownloadURL()
+    .then(url => {
+      // console.log(url)
+      setUrl(url)
+    })
 
   function goToProject() {
     return history.push(`${LIST_PATH}/${projectId}`)
@@ -38,7 +48,7 @@ function ProjectTile({ name, image, projectId, showDelete }) {
     <Paper
       className={classes.root}
       style={{
-        backgroundImage: 'url(' + image + ')',
+        backgroundImage: 'url(' + url + ')',
         backgroundPosition: 'center',
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat'

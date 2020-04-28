@@ -58,6 +58,9 @@ function useProjects() {
   const [newDialogOpen, changeDialogState] = useState(false)
   const toggleDialog = () => changeDialogState(!newDialogOpen)
 
+  const quiz = JSON.parse(localStorage.getItem('quiz'))
+  const switchinitStatus = quiz.productId === projectId ? true : false
+
   function addProject(data) {
     if (!auth.uid) {
       return showError('You must be logged in to create a project')
@@ -78,26 +81,36 @@ function useProjects() {
       })
   }
 
-  const setQuiz = () => {
-    if (localStorage.getItem('quiz') == null) {
-      const defaultQuiz = {
-        userId: auth.uid,
-        productId: projectId
-      }
-
-      //set to localStorage
-      localStorage.setItem('quiz', JSON.stringify(defaultQuiz))
-    }
-  }
-
-  return { addProject, setQuiz, newDialogOpen, toggleDialog }
+  return { addProject, newDialogOpen, toggleDialog, auth, switchinitStatus }
 }
 function ProjectAnswers() {
   const { projectId } = useParams()
   const classes = useStyles()
-  const { addProject, setQuiz, newDialogOpen, toggleDialog } = useProjects()
-  const completed = 50
-  const buffer = 100
+  const {
+    addProject,
+    newDialogOpen,
+    toggleDialog,
+    auth,
+    switchinitStatus
+  } = useProjects()
+  const quiz = JSON.parse(localStorage.getItem('quiz'))
+  const [swithStatus, setSwitchStatus] = useState(switchinitStatus)
+
+  const setQuiz = () => {
+    const defaultQuiz = {
+      userId: auth.uid,
+      productId: projectId
+    }
+
+    if (quiz.productId !== projectId) {
+      setSwitchStatus(true)
+    }
+
+    //set to localStorage
+    localStorage.setItem('quiz', JSON.stringify(defaultQuiz))
+    setSwitchStatus(true)
+    console.log('set new quiz')
+  }
   // Create listener for projects
   useFirebaseConnect(() => [{ path: `projects/${projectId}` }])
 
@@ -118,7 +131,7 @@ function ProjectAnswers() {
         open={newDialogOpen}
         onRequestClose={toggleDialog}
       />
-      <Switch onChange={setQuiz} />
+      <Switch onChange={setQuiz} checked={swithStatus} />
       <List component="nav">
         <ListSubheader>
           Possible Answers
@@ -130,13 +143,6 @@ function ProjectAnswers() {
           project.answers.map(answer => (
             <ListItem key={answer.id}>
               <ListItemText primary={answer.text} />
-              <ListItemSecondaryAction>
-                <LinearProgress
-                  variant="buffer"
-                  value={completed}
-                  valueBuffer={buffer}
-                />
-              </ListItemSecondaryAction>
             </ListItem>
           ))
         ) : (

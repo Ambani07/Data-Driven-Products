@@ -8,6 +8,7 @@ import SignupRoute from './Signup'
 import ProjectsRoute from './Projects'
 import AccountRoute from './Account'
 import NotFoundRoute from './NotFound'
+import NewProject from './NewProject'
 
 export default function createRoutes(store) {
   return (
@@ -20,7 +21,8 @@ export default function createRoutes(store) {
           ProjectsRoute,
           SignupRoute,
           LoginRoute,
-          Quiz
+          Quiz,
+          NewProject
           /* Add More Routes Here */
         ].map((settings, index) => (
           <Route key={`Route-${index}`} {...settings} />
