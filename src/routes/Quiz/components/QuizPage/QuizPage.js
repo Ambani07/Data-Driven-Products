@@ -85,7 +85,7 @@ function QuizPage() {
     return (
       <div className={classes.root} style={{ textAlign: 'center' }}>
         <Typography variant="h2"> {product.name} </Typography>
-        <h3>Welcome to your dreams.</h3>
+        <h3>{product.question}</h3>
         <Grid container direction="row" justify="center" alignItems="baseline">
           {completed === false ? (
             answers !== null ? (

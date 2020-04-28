@@ -15,6 +15,7 @@ import NewProjectTile from '../NewProjectTile'
 import NewProjectDialog from '../NewProjectDialog'
 import styles from './ProjectsPage.styles'
 import uuid from 'react-uuid'
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles(styles)
 
@@ -98,7 +99,9 @@ function ProjectsPage({ match }) {
               onRequestClose={toggleDialog}
             />
             <div className={classes.tiles}>
-              <NewProjectTile onClick={toggleDialog} />
+              <Link to="project/add">
+                <NewProjectTile />
+              </Link>
               {!isEmpty(projects) &&
                 projects.map((project, ind) => {
                   return (

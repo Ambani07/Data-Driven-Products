@@ -5,7 +5,8 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/database'
-import 'firebase/firestore' // make sure you add this for firestore
+import 'firebase/firestore'
+import 'firebase/storage'
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
 import { createFirestoreInstance } from 'redux-firestore'
 import { Provider } from 'react-redux'
@@ -17,12 +18,15 @@ const theme = createMuiTheme(ThemeSettings)
 // Initialize Firebase instance
 firebase.initializeApp(fbConfig)
 
+const storage = firebase.storage()
+
 function App({ routes, store }) {
   return (
     <MuiThemeProvider theme={theme}>
       <Provider store={store}>
         <ReactReduxFirebaseProvider
           firebase={firebase}
+          storage={storage}
           config={rfConfig}
           dispatch={store.dispatch}
           createFirestoreInstance={createFirestoreInstance}>

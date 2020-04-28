@@ -10,7 +10,7 @@ import { Field } from 'redux-form'
 import TextField from 'components/FormTextField'
 import { required } from 'utils/form'
 import styles from './NewProjectDialog.styles'
-
+import Grid from '@material-ui/core/Grid'
 const useStyles = makeStyles(styles)
 
 function NewProjectDialog({ handleSubmit, open, onRequestClose }) {
@@ -21,18 +21,28 @@ function NewProjectDialog({ handleSubmit, open, onRequestClose }) {
       <DialogTitle id="new-project-dialog-title">New Project</DialogTitle>
       <form onSubmit={handleSubmit} className={classes.inputs}>
         <DialogContent>
-          <Field
-            name="name"
-            component={TextField}
-            label="Project Name"
-            validate={[required]}
-          />
-          <Field
-            name="image"
-            component={TextField}
-            label="Project Image"
-            validate={[required]}
-          />
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Field
+                fullWidth
+                name="name"
+                component={TextField}
+                label="Project Name"
+                validate={[required]}
+              />
+            </Grid>
+          </Grid>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <Field
+                fullWidth
+                name="image"
+                component={TextField}
+                label="Project Image"
+                validate={[required]}
+              />
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button onClick={onRequestClose} color="secondary">
