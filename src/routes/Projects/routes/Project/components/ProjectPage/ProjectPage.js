@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { withStyles } from '@material-ui/core/styles'
 import ButtonBase from '@material-ui/core/ButtonBase'
 import Typography from '@material-ui/core/Typography'
-import ProductAnswers from '../ProjectAnswers'
+import ProjectStats from '../ProjectStats'
 import ProjectDetails from '../ProjectDetails'
 import Grid from '@material-ui/core/Grid'
 import { useParams, Link } from 'react-router-dom'
@@ -85,7 +85,7 @@ function ProjectPage(props) {
           <ProjectDetails project={project} />
         </Grid>
         <Grid item xs={12}>
-          <h1>View Starts</h1>
+          <ProjectStats project={project} />
         </Grid>
       </Grid>
     </div>

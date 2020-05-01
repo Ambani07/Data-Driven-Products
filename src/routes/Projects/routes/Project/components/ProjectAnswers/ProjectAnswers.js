@@ -4,7 +4,7 @@ import { useFirebaseConnect, isLoaded, useFirebase } from 'react-redux-firebase'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import LoadingSpinner from 'components/LoadingSpinner'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
+
 import uuid from 'react-uuid'
 import { useNotifications } from 'modules/notification'
 
