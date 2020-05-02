@@ -9,8 +9,6 @@ import Chart from './Chart'
 import { useFirebaseConnect, isLoaded, useFirebase } from 'react-redux-firebase'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import produce from 'immer'
-import ProjectAnswers from '../ProjectAnswers'
 
 const styles = theme
 
@@ -20,24 +18,11 @@ function useProjects() {
   const firebase = useFirebase()
   const { projectId } = useParams()
   const completedQuizzes = []
-  // Get projects from redux state
-
-  // const data = [
-  //   { name: 'Page A', uv: 4000 },
-  //   { name: 'Page B', uv: 3000 },
-  //   { name: 'Page C', uv: 2000 },
-  //   { name: 'Page D' },
-  //   { name: 'Page E', uv: 1890 },
-  //   { name: 'Page F', uv: 2390 },
-  //   { name: 'Page G', uv: 3490 }
-  // ]
-
   // Attach projects listener
   useFirebaseConnect(() => [
     {
       path: 'quiz',
       queryParams: ['limitToLast=10']
-      // queryParams: ['orderByChild=createdBy', `equalTo=${auth.uid}`]
     }
   ])
   // Get auth from redux state
@@ -56,48 +41,25 @@ function useProjects() {
         completedQuizzes.push(quiz.value.quiz)
       }
     })
-    // console.log(completedQuizzes)
   }
 
   const data = []
 
   if (completedQuizzes.length > 0 && answers) {
-    const nextState = produce(answers, draftState => {
-      answers.map((projectAnswer, index) => {
-        //loop through the quizzes
-        let total = 0
-        completedQuizzes.forEach((quiz, quizIndex) => {
-          quiz.forEach(quizAnswer => {
-            if (quizAnswer.id === projectAnswer.id) {
-              // console.log(quizAnswer)
-              total++
-            }
-          })
+    // const nextState = produce(answers, draftState => {
+    answers.map((projectAnswer, index) => {
+      //loop through the quizzes
+      let total = 0
+      completedQuizzes.forEach((quiz, quizIndex) => {
+        quiz.forEach(quizAnswer => {
+          if (quizAnswer.id === projectAnswer.id) {
+            total++
+          }
         })
-        data.push({ answer: projectAnswer.text, total: total })
       })
+      data.push({ answer: projectAnswer.text, total: total })
     })
-
-    console.log(data)
   }
-  // debugger
-  // })
-  // answers.forEach(quiz => {
-  //   const nextState = produce(completedQuizzes, draftState => {
-  //     draftState.filter((answer, index) =>
-  //       console.log(answer[index].id)
-  //     )
-  //   })
-  // })
-
-  // const nextState = produce(answers, draftState => {
-  //   draftState.filter(answer =>
-  //     console.log(answer.id === '710af-8c11-85cd-014b-42fd335fec8')
-  //   )
-  // })
-
-  // console.log(nextState)
-  // debugger
   return { data }
 }
 function ProjectStats({ project }) {
@@ -108,7 +70,7 @@ function ProjectStats({ project }) {
       <Grid item xs={12} md={6}>
         <List>
           <ListItem>
-            <h3>Project Quiz Stats</h3>
+            <h3>Today's Product Feedback</h3>
           </ListItem>
         </List>
         <Chart project={project} data={data} />

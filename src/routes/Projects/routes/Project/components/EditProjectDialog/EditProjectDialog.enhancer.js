@@ -1,8 +1,8 @@
 import { reduxForm } from 'redux-form'
-import { NEW_PROJECT_ANSWER_FORM_NAME } from 'constants/formNames'
+import { EDIT_PROJECT_FORM_NAME } from 'constants/formNames'
 
 export default reduxForm({
-  form: NEW_PROJECT_ANSWER_FORM_NAME,
+  form: EDIT_PROJECT_FORM_NAME,
   // Clear the form for future use (creating another project)
   onSubmitSuccess: (result, dispatch, props) => props.reset()
 })
