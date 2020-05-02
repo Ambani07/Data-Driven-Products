@@ -57,8 +57,6 @@ function useProjects() {
   const toggleDialog = () => changeDialogState(!newDialogOpen)
 
   function updatProject(data) {
-    // console.log(data)
-
     return firebase
       .update(`projects/${projectId}`, {
         name: data.name,
