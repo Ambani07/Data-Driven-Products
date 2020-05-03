@@ -89,8 +89,8 @@ function QuizPage() {
         <Grid container direction="row" justify="center" alignItems="baseline">
           {completed === false ? (
             answers !== null ? (
-              answers.map(answer => (
-                <Grid item xs={3}>
+              answers.map((answer, key) => (
+                <Grid item xs={3} key={key}>
                   {quizzez(answer, classes)}
                 </Grid>
               ))

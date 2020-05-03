@@ -24,14 +24,19 @@ import Chip from '@material-ui/core/Chip'
 import Divider from '@material-ui/core/Divider'
 import ProjectAnswers from '../ProjectAnswers'
 import EditProjectDialog from '../EditProjectDialog'
+import { useHistory } from 'react-router-dom'
+import DeleteProjectDialog from '../DeleteProjectDialog'
 const styles = theme
 
 const useStyles = makeStyles(styles)
 function useProjects() {
+  const completedQuizzes = []
+  const history = useHistory()
   const firebase = useFirebase()
   const { projectId } = useParams()
   // Get auth from redux state
   const auth = useSelector(state => state.firebase.auth)
+  const quizzes = useSelector(state => state.firebase.ordered.quiz)
 
   const updateAnswers = []
 
@@ -52,11 +57,15 @@ function useProjects() {
     updateAnswers.push(answer)
   })
 
-  // New dialog
+  // New Product dialog
   const [newDialogOpen, changeDialogState] = useState(false)
   const toggleDialog = () => changeDialogState(!newDialogOpen)
 
-  function updatProject(data) {
+  // Delte Product dialog
+  const [deleteDialogOpen, changeDeleteDialogState] = useState(false)
+  const toggleDeleteDialog = () => changeDeleteDialogState(!deleteDialogOpen)
+
+  function updateProject(data) {
     // console.log(data)
 
     return firebase
@@ -73,44 +82,90 @@ function useProjects() {
       })
   }
 
-  return { updatProject, newDialogOpen, toggleDialog, auth }
+  function deleteProject() {
+    console.log('delete this ', projectId)
+
+    if (quizzes) {
+      quizzes.forEach((quiz, index) => {
+        if (quiz.value.projectId === projectId) {
+          // console.log(quiz.key)
+          // completedQuizzes.push(quiz.value.quiz)
+          firebase
+            .remove(`quiz/${quiz.key}`)
+            .then(() => console.log('Project answer deleted successfully'))
+            .catch(err => {
+              console.error('Error:', err) // eslint-disable-line no-console
+              console.log(err.message || 'Could not delete project')
+              return Promise.reject(err)
+            })
+        }
+      })
+      firebase
+        .remove(`projects/${projectId}`)
+        .then(() => history.push('/'))
+        .catch(err => {
+          console.error('Error:', err) // eslint-disable-line no-console
+          console.log(err.message || 'Could not delete project')
+          return Promise.reject(err)
+        })
+    }
+
+    if (completedQuizzes) {
+      console.log(completedQuizzes)
+    }
+
+    // return firebase
+    //   .update(`projects/${projectId}`, {
+    //     name: data.name,
+    //     question: data.question
+    //   })
+    //   .then(() => {
+    //     toggleDialog()
+    //   })
+    //   .catch(err => {
+    //     console.error('Error:', err) // eslint-disable-line no-console
+    //     return Promise.reject(err)
+    //   })
+  }
+
+  return {
+    updateProject,
+    deleteProject,
+    newDialogOpen,
+    deleteDialogOpen,
+    toggleDialog,
+    toggleDeleteDialog,
+    auth
+  }
 }
 function ProjectDetails({ project }) {
   const classes = useStyles()
   const { projectId } = useParams()
   const {
-    updatProject,
+    updateProject,
+    deleteProject,
     newDialogOpen,
+    deleteDialogOpen,
     toggleDialog,
+    toggleDeleteDialog,
     auth,
     switchinitStatus
   } = useProjects()
-  const quiz = JSON.parse(localStorage.getItem('quiz'))
-  const [swithStatus, setSwitchStatus] = useState(switchinitStatus)
-
-  const setQuiz = () => {
-    const defaultQuiz = {
-      userId: auth.uid,
-      productId: projectId
-    }
-
-    if (quiz.productId !== projectId) {
-      setSwitchStatus(true)
-    }
-
-    //set to localStorage
-    localStorage.setItem('quiz', JSON.stringify(defaultQuiz))
-    setSwitchStatus(true)
-  }
   // Create listener for projects
   useFirebaseConnect(() => [{ path: `projects/${projectId}` }])
 
   return (
     <div className={classes.root}>
       <EditProjectDialog
-        onSubmit={updatProject}
+        onSubmit={updateProject}
         open={newDialogOpen}
         onRequestClose={toggleDialog}
+        project={project}
+      />
+      <DeleteProjectDialog
+        onSubmit={deleteProject}
+        open={deleteDialogOpen}
+        onRequestClose={toggleDeleteDialog}
         project={project}
       />
       <Grid item xs={12} md={6}>
@@ -122,7 +177,7 @@ function ProjectDetails({ project }) {
                 <EditIcon onClick={toggleDialog} />
               </IconButton>
               <IconButton edge="end" aria-label="delete">
-                <DeleteIcon />
+                <DeleteIcon onClick={toggleDeleteDialog} />
               </IconButton>
             </ListItemSecondaryAction>
           </ListItem>
