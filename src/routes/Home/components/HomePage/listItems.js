@@ -24,15 +24,9 @@ export const mainListItems = (
       <ListItemIcon>
         <ShoppingCartIcon />
       </ListItemIcon>
-      <Link to="/products">
-        <ListItemText primary="Products" />
+      <Link to="/projects">
+        <ListItemText primary="Projects" />
       </Link>
-    </ListItem>
-    <ListItem>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Reports" />
     </ListItem>
   </div>
 )
